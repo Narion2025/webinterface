@@ -1,7 +1,7 @@
 {
   "name": "wirklichkeits-api",
   "version": "1.0.0",
-  "description": "Wirklichkeits-API für Narion mit CORS",
+  "description": "Wirklichkeits-API f\u00fcr Narion mit CORS",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
