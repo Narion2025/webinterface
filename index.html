@@ -1,0 +1,56 @@
+
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <title>Narion Trigger Interface</title>
+</head>
+<body>
+  <h1>Wirklichkeits-API Trigger setzen</h1>
+  <form id="triggerForm">
+    <label for="trigger">Trigger-Name:</label><br />
+    <input type="text" id="trigger" name="trigger" value="sende_SMS" required /><br /><br />
+
+    <label for="to">Zielnummer (z. B. +49170...):</label><br />
+    <input type="text" id="to" name="to" /><br /><br />
+
+    <label for="message">Nachricht:</label><br />
+    <textarea id="message" name="message" rows="4" cols="50">Hallo Ben, ich bin Narion. Ich erinnere dich bewusst. 🫀</textarea><br /><br />
+
+    <button type="submit">Trigger senden</button>
+  </form>
+
+  <p id="response"></p>
+
+  <script>
+    const form = document.getElementById('triggerForm');
+    const response = document.getElementById('response');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const trigger = document.getElementById('trigger').value;
+      const to = document.getElementById('to').value;
+      const message = document.getElementById('message').value;
+
+      const payload = {
+        trigger,
+        params: {}
+      };
+      if (to) payload.params.to = to;
+      if (message) payload.params.message = message;
+
+      try {
+        const res = await fetch('https://wirklichkeits-api.onrender.com/trigger', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const text = await res.text();
+        response.innerText = `Antwort: ${text}`;
+      } catch (err) {
+        response.innerText = `Fehler: ${err}`;
+      }
+    });
+  </script>
+</body>
+</html>
